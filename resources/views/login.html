@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<title>login admin</title>
+	<style>
+		.container {
+         display: flex;
+        justify-content: center;
+        align-items: center;
+		}
+	</style>	 
+</head>
+<body>
+
+<div class="navbar navbar-default">
+<div class="navbar-header">
+  <a class="navbar-brand" href="">Admin login</a>
+  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+  </button>
+</div>
+<div class="navbar-collapse collapse"  >
+    <ul class="nav navbar-nav navbar-right">
+         <li><a href="#" id="logout" style="display: none;">Log Out</a></li>
+    </ul>
+</div>
+</div>
+<br>
+<a class="container" href="#">
+	<img  style="border-radius: 50%;"width="200px" height="200px" src="storage/images/maktbty.jpg" alt="Logo">
+</a>
+<div class="container">	
+  
+	<form name="login_form" id="login_form" method="post"action="" enctype="multipart/form-data" >
+	<div class="col-sm-4">
+		<div class="form-group">
+	      <label for="email">Email</label>
+		  <input style="width:260px;" type="email" name="login_email" required id="login_email" class="form-control" placeholder="Enter your email">
+ 		</div>
+		
+		<div class="form-group">
+	      <label for="password">Password</label>
+		  <input style="width:260px; "type="password" name="login_password" required id="login_password" class="form-control"  placeholder="Enter your password">
+		</div>
+		<button type="button" id="login" name="login" class="btn btn-success">Login</button>
+	</div><!-- end col -->
+	
+  </div><!--  end row -->		
+  </form>
+</div>
+<br>
+ </body>
+	<script type="module">
+	  // Import the functions you need from the SDKs you need
+	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+	  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+	  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+	  // TODO: Add SDKs for Firebase products that you want to use
+	  // https://firebase.google.com/docs/web/setup#available-libraries
+
+	  // Your web app's Firebase configuration
+	  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+	  const firebaseConfig = {
+		apiKey: "AIzaSyDl1xzaC-tmOu-cn5oH7bxKMQpKHIBURBo",
+		authDomain: "booklibrary-9dc9c.firebaseapp.com",
+		databaseURL: "https://booklibrary-9dc9c-default-rtdb.firebaseio.com",
+		projectId: "booklibrary-9dc9c",
+		storageBucket: "booklibrary-9dc9c.appspot.com",
+		messagingSenderId: "496279702307",
+		appId: "1:496279702307:web:02b75df9c1e06abd441a96",
+		measurementId: "G-JZPPFNMDLQ"
+	  };
+
+	  // Initialize Firebase
+	  const app = initializeApp(firebaseConfig);
+	  const analytics = getAnalytics(app);
+	  const auth = getAuth();
+	  console.log(app);
+
+	  
+
+	 
+
+	  //----- Login code start	  
+	  document.getElementById("login").addEventListener("click", function() {
+		  var email =  document.getElementById("login_email").value;
+		  var password = document.getElementById("login_password").value;
+
+		  signInWithEmailAndPassword(auth, email, password)
+		  .then((userCredential) => {
+		    // Signed in 
+		    const user = userCredential.user;
+		    console.log(user);
+			if(user.email=="admin@gmail.com"){
+				alert(user.email+" Login successfully!!!");
+				window.location.href = "Books";
+
+			}
+		    document.getElementById('logout').style.display = 'block';
+		    // ...
+		  })
+		  .catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    console.log(errorMessage);
+		    alert(errorMessage);
+		  });		  		  
+	  });
+	  //----- End
+
+	  //----- Logout code start	  
+	  document.getElementById("logout").addEventListener("click", function() {
+		  signOut(auth).then(() => {
+			  // Sign-out successful.
+			  console.log('Sign-out successful.');
+			  alert('Sign-out successful.');
+			  window.location.href = "register";
+			  document.getElementById('logout').style.display = 'none';
+			}).catch((error) => {
+			  // An error happened.
+			  console.log('An error happened.');
+			});		  		  
+	  });
+	  //----- End
+
+	</script>
+</html>
